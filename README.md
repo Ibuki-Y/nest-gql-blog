@@ -80,6 +80,15 @@ $ yarn add @nestjs/graphql@9.1.2 graphql@^15 apollo-server-express
 
 # prisma
 $ yarn add -D prisma typescript ts-node @types/node
+
+# config
+$ yarn add @nestjs/config
+
+# validator, transformer
+$ yarn add class-validator class-transformer
+
+# logger
+$ yarn add winston nest-winston @google-cloud/logging-winston
 ```
 
 ## Prisma
