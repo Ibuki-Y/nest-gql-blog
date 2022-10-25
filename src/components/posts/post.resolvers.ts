@@ -1,8 +1,9 @@
 import { ConfigService } from '@nestjs/config';
-import { Query, Resolver } from '@nestjs/graphql';
+import { Args, Query, Resolver } from '@nestjs/graphql';
 import { PostModel } from './interfaces/post.model';
 import { PbEnv } from 'src/config/environments/pb-env.service';
 import { PrismaService } from '../prisma/prisma.service';
+import { GetPostsArgs } from './interfaces/get-posts-connection.args';
 
 // PostModelに相当するスキーマを返す => PostModelへ書いたすべてのフィールドのデータを取得できる
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,8 +16,8 @@ export class PostsResolver {
   ) {}
 
   // postsというクエリが呼ばれたらこのメソッドを実行
-  @Query(() => [PostModel], { name: 'posts', nullable: true })
-  async getPosts() {
+  @Query(() => [PostModel], { name: 'fixedPosts', nullable: true })
+  async getPostsByFixedData() {
     return [
       {
         id: '1',
@@ -29,13 +30,22 @@ export class PostsResolver {
     ];
   }
 
-  @Query(() => Number)
-  helloEnv(): number {
-    return this.pbEnv.Port;
-  }
-
   @Query(() => [PostModel], { name: 'prismaPosts', nullable: true })
   async getPostsByPrisma() {
     return this.prisma.post.findMany();
+  }
+
+  @Query(() => [PostModel], { name: 'posts', nullable: true })
+  async getPosts(@Args() args: GetPostsArgs) {
+    return this.prisma.post.findMany({
+      where: {
+        // in: typeは配列で複数渡されることがある
+        type: args.type ? { in: args.type } : undefined,
+        published: true,
+      },
+      orderBy: {
+        publishDate: 'desc',
+      },
+    });
   }
 }
