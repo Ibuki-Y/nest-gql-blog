@@ -89,6 +89,12 @@ $ yarn add class-validator class-transformer
 
 # logger
 $ yarn add winston nest-winston @google-cloud/logging-winston
+
+# markdown
+$ yarn add gray-matter
+
+# GCP
+$ yarn add @google-cloud/common @google-cloud/storage
 ```
 
 ## Prisma

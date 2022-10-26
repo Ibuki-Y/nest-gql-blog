@@ -1,19 +1,18 @@
-import { ConfigService } from '@nestjs/config';
-import { Args, Query, Resolver } from '@nestjs/graphql';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+// import matter from 'gray-matter';
 import { PostModel } from './interfaces/post.model';
-import { PbEnv } from 'src/config/environments/pb-env.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { GetPostsArgs } from './interfaces/get-posts-connection.args';
 import { FindPostArgs } from './interfaces/find-post-args';
+// import { GoogleStorageRepository } from '../bucket-assets/repositories/google-storage.repository';
 
 // PostModelに相当するスキーマを返す => PostModelへ書いたすべてのフィールドのデータを取得できる
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 @Resolver((of) => PostModel)
 export class PostsResolver {
   constructor(
-    private readonly configService: ConfigService,
-    private pbEnv: PbEnv,
-    private readonly prisma: PrismaService,
+    private readonly prisma: PrismaService, // private readonly gcsRepository: GoogleStorageRepository,
   ) {}
 
   @Query(() => [PostModel], { name: 'prismaPosts', nullable: true })
@@ -46,4 +45,12 @@ export class PostsResolver {
       },
     });
   }
+
+  // @ResolveField(() => String, { name: 'bodyMarkdown', nullable: false })
+  // async bodyMarkdown(@Parent() post: PostModel) {
+  //   const { contentPath } = post;
+  //   const markdown = await this.gcsRepository.download(contentPath);
+  //   const { content } = matter(markdown);
+  //   return content;
+  // }
 }
