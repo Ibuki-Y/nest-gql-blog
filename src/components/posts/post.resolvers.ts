@@ -4,6 +4,7 @@ import { PostModel } from './interfaces/post.model';
 import { PbEnv } from 'src/config/environments/pb-env.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { GetPostsArgs } from './interfaces/get-posts-connection.args';
+import { FindPostArgs } from './interfaces/find-post-args';
 
 // PostModelに相当するスキーマを返す => PostModelへ書いたすべてのフィールドのデータを取得できる
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,26 +16,12 @@ export class PostsResolver {
     private readonly prisma: PrismaService,
   ) {}
 
-  // postsというクエリが呼ばれたらこのメソッドを実行
-  @Query(() => [PostModel], { name: 'fixedPosts', nullable: true })
-  async getPostsByFixedData() {
-    return [
-      {
-        id: '1',
-        title: 'NestJS is so good!',
-      },
-      {
-        id: '2',
-        title: 'GraphQL is so good too!',
-      },
-    ];
-  }
-
   @Query(() => [PostModel], { name: 'prismaPosts', nullable: true })
   async getPostsByPrisma() {
     return this.prisma.post.findMany();
   }
 
+  // postsというクエリが呼ばれたらこのメソッドを実行
   @Query(() => [PostModel], { name: 'posts', nullable: true })
   async getPosts(@Args() args: GetPostsArgs) {
     return this.prisma.post.findMany({
@@ -45,6 +32,17 @@ export class PostsResolver {
       },
       orderBy: {
         publishDate: 'desc',
+      },
+    });
+  }
+
+  @Query(() => PostModel, { name: 'findPost', nullable: false })
+  async findPost(@Args() args: FindPostArgs) {
+    return await this.prisma.post.findUnique({
+      rejectOnNotFound: true,
+      where: {
+        id: args.id,
+        contentPath: args.contentPath,
       },
     });
   }

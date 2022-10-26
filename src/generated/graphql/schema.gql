@@ -20,7 +20,7 @@ type PostModel {
 }
 
 type Query {
-  fixedPosts: [PostModel!]
+  findPost(contentPath: String, id: String): PostModel!
   posts(type: [String!]): [PostModel!]
   prismaPosts: [PostModel!]
 }
