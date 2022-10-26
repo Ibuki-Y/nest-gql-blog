@@ -5,6 +5,7 @@ import { PostModel } from './interfaces/post.model';
 import { PrismaService } from '../prisma/prisma.service';
 import { GetPostsArgs } from './interfaces/get-posts-connection.args';
 import { FindPostArgs } from './interfaces/find-post-args';
+import { FindPostByIdArgs } from './interfaces/find-post-by-id-args';
 // import { GoogleStorageRepository } from '../bucket-assets/repositories/google-storage.repository';
 
 // PostModelに相当するスキーマを返す => PostModelへ書いたすべてのフィールドのデータを取得できる
@@ -42,6 +43,16 @@ export class PostsResolver {
       where: {
         id: args.id,
         contentPath: args.contentPath,
+      },
+    });
+  }
+
+  @Query(() => PostModel, { name: 'findPostById', nullable: false })
+  async findPostById(@Args() args: FindPostByIdArgs) {
+    return await this.prisma.post.findUnique({
+      rejectOnNotFound: true,
+      where: {
+        id: args.id,
       },
     });
   }

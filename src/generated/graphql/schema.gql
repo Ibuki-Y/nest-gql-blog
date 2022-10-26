@@ -21,6 +21,7 @@ type PostModel {
 
 type Query {
   findPost(contentPath: String, id: String): PostModel!
+  findPostById(id: String): PostModel!
   posts(type: [String!]): [PostModel!]
   prismaPosts: [PostModel!]
 }

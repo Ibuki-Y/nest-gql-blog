@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 const postData: Post[] = [
   {
     id: 'fa119cb6-9135-57f5-8a5a-54f28d566d0e',
-    contentPath: '/storage/posts/articles/hello.md',
+    contentPath: '/posts/sample/articles/hello.md',
     emoji: '✅',
     excerpt: '本を書いています',
     md5Hash: '5ce6822c5efacf5791b7f46187451e73',
@@ -21,7 +21,7 @@ const postData: Post[] = [
   },
   {
     id: '545d5237-15ee-169c-13a2-30f8748e3d6e',
-    contentPath: '/storage/posts/articles/graphql.md',
+    contentPath: '/posts/sample/articles/graphql.md',
     emoji: '🛳',
     excerpt: '記事を書いています',
     md5Hash: 'b7ec2e1a2b1faaed120aeeccb1ffc587',
@@ -36,7 +36,7 @@ const postData: Post[] = [
   },
   {
     id: '95daa18f-90d0-390c-fb96-0d152312936c',
-    contentPath: '/storage/posts/articles/nestjs.md',
+    contentPath: '/posts/sample/articles/nestjs.md',
     emoji: '😼',
     excerpt: '日記を書いています',
     md5Hash: 'e5f6dd3adc408b03fbac3faadb82947d',
@@ -51,7 +51,7 @@ const postData: Post[] = [
   },
   {
     id: '2f438d65-75ce-418f-a6ef-96ad90040f4d',
-    contentPath: '/storage/posts/articles/poem.md',
+    contentPath: '/posts/sample/articles/poem.md',
     emoji: '🤔',
     excerpt: 'いろいろな考え方があります',
     md5Hash: '5ce6822c5efacf5791b7f46187451e73',
@@ -66,7 +66,7 @@ const postData: Post[] = [
   },
   {
     id: '9e8bd185-decb-f227-58ed-1382d9b6d3fe',
-    contentPath: '/storage/posts/articles/fire.md',
+    contentPath: '/posts/sample/articles/fire.md',
     emoji: '😋',
     excerpt: 'おいしい',
     md5Hash: 'b7ec2e1a2b1faaed120aeeccb1ffc587',
@@ -81,7 +81,7 @@ const postData: Post[] = [
   },
   {
     id: 'b83d9d58-7b1f-14e4-acb8-209a711aee0e',
-    contentPath: '/storage/posts/articles/nextjs.md',
+    contentPath: '/posts/sample/articles/nextjs.md',
     emoji: '💎',
     excerpt: 'たくさん',
     md5Hash: 'e5f6dd3adc408b03fbac3faadb82947d',
