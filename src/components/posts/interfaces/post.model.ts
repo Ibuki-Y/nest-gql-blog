@@ -1,8 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
+import {
+  Connection,
+  Node,
+  PageInfoModel,
+} from '../../connection/interfaces/pagination';
 
-@ObjectType()
-export class PostModel {
+@ObjectType({ implements: () => [Node] })
+export class PostModel implements Node {
   @Field((type) => ID) // GraphQL Schemaのためのデコレータ
   id: string;
 
@@ -29,4 +34,13 @@ export class PostModel {
 
   @Field((type) => GraphQLISODateTime, { nullable: true })
   publishDate?: Date;
+}
+
+@ObjectType({ implements: () => [Connection] })
+export class PostsConnection implements Connection {
+  @Field((type) => PageInfoModel, { nullable: false })
+  pageInfo: PageInfoModel;
+
+  @Field((type) => [PostModel], { nullable: false })
+  nodes: PostModel[];
 }
