@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 // import matter from 'gray-matter';
 import { PostModel } from './interfaces/post.model';
@@ -6,6 +5,8 @@ import { PrismaService } from '../prisma/prisma.service';
 import { GetPostsArgs } from './interfaces/get-posts-connection.args';
 import { FindPostArgs } from './interfaces/find-post-args';
 import { FindPostByIdArgs } from './interfaces/find-post-by-id-args';
+import { ImpressionService } from '../impressions/impression.service';
+import { ImpressionModel } from '../impressions/interfaces/impression.model';
 // import { GoogleStorageRepository } from '../bucket-assets/repositories/google-storage.repository';
 
 // PostModelに相当するスキーマを返す => PostModelへ書いたすべてのフィールドのデータを取得できる
@@ -13,7 +14,8 @@ import { FindPostByIdArgs } from './interfaces/find-post-by-id-args';
 @Resolver((of) => PostModel)
 export class PostsResolver {
   constructor(
-    private readonly prisma: PrismaService, // private readonly gcsRepository: GoogleStorageRepository,
+    private readonly prisma: PrismaService,
+    private readonly impressionService: ImpressionService, // private readonly gcsRepository: GoogleStorageRepository,
   ) {}
 
   @Query(() => [PostModel], { name: 'prismaPosts', nullable: true })
@@ -64,4 +66,13 @@ export class PostsResolver {
   //   const { content } = matter(markdown);
   //   return content;
   // }
+
+  @ResolveField(() => [ImpressionModel], {
+    name: 'impressions',
+    nullable: false,
+  })
+  async impressions(@Parent() post: PostModel) {
+    const { id } = post;
+    return this.impressionService.search({ postId: id });
+  }
 }

@@ -1,4 +1,4 @@
-import { PrismaClient, Post } from '@prisma/client';
+import { PrismaClient, Post, Impression } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -95,6 +95,35 @@ const postData: Post[] = [
     updatedAt: new Date('2022-01-31T04:34:22+09:00'),
   },
 ];
+const impressionData: Impression[] = [
+  {
+    id: '8c573507-31ae-48bb-92bf-ba2d343e79a0',
+    sticker: 'Good',
+    comment: '今後ともよろしく！',
+    postId: 'fa119cb6-9135-57f5-8a5a-54f28d566d0e',
+    twitterId: 'waddy_u',
+    createdAt: new Date('2022-01-31T04:34:22+09:00'),
+    updatedAt: new Date('2022-01-31T04:34:22+09:00'),
+  },
+  {
+    id: '394474e1-51f4-4fe5-a498-e804cbceeadd',
+    sticker: 'Thanks',
+    comment: '参考になった',
+    postId: 'fa119cb6-9135-57f5-8a5a-54f28d566d0e',
+    twitterId: 'waddy_u',
+    createdAt: new Date('2022-01-31T04:34:22+09:00'),
+    updatedAt: new Date('2022-01-31T04:34:22+09:00'),
+  },
+  {
+    id: '94527f0a-c24b-4ff6-96da-968a51130354',
+    sticker: 'Like',
+    comment: null,
+    postId: 'fa119cb6-9135-57f5-8a5a-54f28d566d0e',
+    twitterId: 'waddy_u',
+    createdAt: new Date('2022-01-31T04:34:22+09:00'),
+    updatedAt: new Date('2022-01-31T04:34:22+09:00'),
+  },
+];
 
 const doSeed = async () => {
   const posts = [];
@@ -108,9 +137,25 @@ const doSeed = async () => {
   return await prisma.$transaction(posts);
 };
 
+const doSeedImpressions = async () => {
+  if ((await prisma.impression.count()) < 3) {
+    const impressions = [];
+    for (const impression of impressionData) {
+      const createImpressions = prisma.impression.upsert({
+        create: impression,
+        update: impression,
+        where: { id: impression.id },
+      });
+      impressions.push(createImpressions);
+    }
+    await prisma.$transaction(impressions);
+  }
+};
+
 const main = async () => {
   console.log(`Start seeding ...`);
   await doSeed();
+  await doSeedImpressions();
   console.log(`Seeding finished.`);
 };
 

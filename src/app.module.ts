@@ -7,6 +7,7 @@ import { PostsModule } from './components/posts/posts.module';
 import { PostsResolver } from './components/posts/post.resolvers';
 import { PrismaModule } from './components/prisma/prisma.module';
 import { ProfileModule } from './components/profile/profile.module';
+import { ImpressionModule } from './components/impressions/impression.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { ProfileModule } from './components/profile/profile.module';
     PbEnvModule,
     PostsModule,
     ProfileModule,
+    ImpressionModule,
   ],
   providers: [PostsResolver],
 })
