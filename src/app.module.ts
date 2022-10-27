@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { WinstonModule } from 'nest-winston';
 import { PbEnvModule } from './config/environments/pb-env.module';
@@ -6,9 +6,13 @@ import { PbEnv } from './config/environments/pb-env.service';
 import { PostsModule } from './components/posts/posts.module';
 import { PostsResolver } from './components/posts/post.resolvers';
 import { PrismaModule } from './components/prisma/prisma.module';
+import { ProfileModule } from './components/profile/profile.module';
 
 @Module({
   imports: [
+    CacheModule.register({
+      isGlobal: true,
+    }),
     GraphQLModule.forRootAsync({
       inject: [PbEnv],
       useFactory: (env: PbEnv) => env.GqlModuleOptionsFactory,
@@ -27,6 +31,7 @@ import { PrismaModule } from './components/prisma/prisma.module';
     }),
     PbEnvModule,
     PostsModule,
+    ProfileModule,
   ],
   providers: [PostsResolver],
 })

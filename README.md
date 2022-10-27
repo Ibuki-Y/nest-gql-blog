@@ -95,6 +95,13 @@ $ yarn add gray-matter
 
 # GCP
 $ yarn add @google-cloud/common @google-cloud/storage
+
+# axios
+$ yarn add @nestjs/axios
+
+# cache
+$ yarn add cache-manager
+$ yarn add -D @types/cache-manager
 ```
 
 ## Prisma

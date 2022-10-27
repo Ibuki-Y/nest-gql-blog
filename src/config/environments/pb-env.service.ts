@@ -9,7 +9,7 @@ import {
 import * as path from 'path';
 import * as winston from 'winston';
 import { LoggingWinston } from '@google-cloud/logging-winston';
-// import { HttpModuleOptions } from '@nestjs/axios';
+import { HttpModuleOptions } from '@nestjs/axios';
 
 /**
  * アプリケーションモジュールで利用する設定値はここから取得
@@ -118,14 +118,14 @@ export class PbEnv {
     };
   }
 
-  // get MicroCmsHttpModuleOptionsFactory(): HttpModuleOptions {
-  //   return {
-  //     timeout: 5000,
-  //     maxRedirects: 5,
-  //     baseURL: this.configService.get('MICROCMS_ENDPOINT'),
-  //     headers: {
-  //       'X-MICROCMS-API-KEY': this.configService.get('MICROCMS_KEY'),
-  //     },
-  //   };
-  // }
+  get MicroCmsHttpModuleOptionsFactory(): HttpModuleOptions {
+    return {
+      timeout: 5000,
+      maxRedirects: 5,
+      baseURL: this.configService.get('MICROCMS_ENDPOINT'),
+      headers: {
+        'X-MICROCMS-API-KEY': this.configService.get('MICROCMS_KEY'),
+      },
+    };
+  }
 }
